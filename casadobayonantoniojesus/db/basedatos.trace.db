@@ -1,0 +1,8 @@
+2025-10-28 13:14:48.325149+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Conversión de datos fallida, convirtiendo "'A12345678' (TALLER: ""NIF"" FLOAT(53) NOT NULL)"
+Data conversion error converting "'A12345678' (TALLER: ""NIF"" FLOAT(53) NOT NULL)"; SQL statement:
+INSERT INTO TALLER (ID, NOMBRE, DIRECCION, NIF, HORARIO) VALUES (1, 'Taller Central', 'Calle Falsa 123, Ciudad', 'A12345678', '2025-01-01') [22018-232]
+2025-10-28 13:16:38.430690+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Conversión de datos fallida, convirtiendo "'A12345678' (TALLER: ""NIF"" FLOAT(53) NOT NULL)"
+Data conversion error converting "'A12345678' (TALLER: ""NIF"" FLOAT(53) NOT NULL)"; SQL statement:
+INSERT INTO TALLER (NOMBRE, DIRECCION, NIF, HORARIO) VALUES ('Taller Central', 'Calle Falsa 123, Ciudad', 'A12345678', '2025-01-01') [22018-232]

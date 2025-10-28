@@ -11,11 +11,5 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
 
 
-    @GetMapping("/")
-    public String welcome (Model model){
-
-        model.addAttribute("nombre","Esto funciona");
-        return "index";
-    }
 
 }
