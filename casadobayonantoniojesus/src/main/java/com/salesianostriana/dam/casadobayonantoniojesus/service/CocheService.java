@@ -22,4 +22,12 @@ public class CocheService {
     public void eliminarCoche(Long id){
         cocheRepository.deleteById(id);
     }
+
+    public List<Coche> buscarPorMatricula(String matricula) {
+        String filtro = (matricula != null) ? matricula.trim() : "";
+        return filtro.isEmpty()
+                ? obtenerTodosLosCoches()
+                : cocheRepository.findByMatriculaContainingIgnoreCase(filtro);
+    }
+
 }
