@@ -3,6 +3,8 @@ package com.salesianostriana.dam.casadobayonantoniojesus.service;
 
 import com.salesianostriana.dam.casadobayonantoniojesus.model.Coche;
 import com.salesianostriana.dam.casadobayonantoniojesus.repository.ICocheRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,18 @@ public class CocheService {
         return filtro.isEmpty()
                 ? obtenerTodosLosCoches()
                 : cocheRepository.findByMatriculaContainingIgnoreCase(filtro);
+    }
+
+    public void guardarOActualizarCoche (Coche coche){
+        cocheRepository.save(coche);
+
+        
+    }
+
+    public Coche buscarPorId(Long id){
+
+        return cocheRepository.findById(id)
+        .orElseThrow(()-> new EntityNotFoundException("Coche no encontrado con ID: "+ id));
     }
 
 }

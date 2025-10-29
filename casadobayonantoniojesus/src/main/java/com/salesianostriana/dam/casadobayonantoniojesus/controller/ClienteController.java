@@ -24,7 +24,7 @@ public class ClienteController {
 
         List<Cliente> clientes = clienteService.obtenerTodosLosClientes();
         model.addAttribute("clientes", clientes);
-        return "index";
+        return "clientes";
 
     }
 
