@@ -29,10 +29,10 @@
             </div>
 
             <nav class="nav flex-column">
-                <a class="nav-link d-flex align-items-center rounded-3 active text-primary mb-1" href="#">
+                <a class="nav-link d-flex align-items-center rounded-3 active text-primary mb-1"  th:href="@{/clientes}">
                     <i class="bi bi-people me-2"></i> Clientes
                 </a>
-                <a class="nav-link d-flex align-items-center rounded-3 text-dark mb-1" href="#">
+                <a class="nav-link d-flex align-items-center rounded-3 text-dark mb-1" th:href="@{/coches}">
                     <i class="bi bi-car-front me-2"></i> Coches
                 </a>
                 <a class="nav-link d-flex align-items-center rounded-3 text-dark mb-1" href="#">
@@ -79,6 +79,7 @@
                             <h5 class="mb-0">Lista de Clientes</h5>
                             <small class="text-muted" >3 clientes registrados</small>
                         </div>
+                        
                     </div>
 
                     <div class="table-responsive">
@@ -103,14 +104,14 @@
                       <span class="me-2 text-muted d-inline-block" style="width:20px;">
                         <i class="bi bi-person"></i>
                       </span>
-                                    <span th:text="${cliente.nombre}">Juan Pérez García</span>
+                                    <span th:text="${cliente.nombre}"></span>
                                 </td>
 
-                                <td th:text="${cliente.dni}">12345678A</td>
+                                <td th:text="${cliente.dni}"></td>
 
                                 <td>
                                     <i class="bi bi-telephone me-2 text-muted"></i>
-                                    <span th:text="${cliente.telefono}">666 123 456</span>
+                                    <span th:text="${cliente.telefono}"></span>
                                 </td>
 
                                 <td>
@@ -131,7 +132,7 @@
                                     </a>
 
                                     <!-- Botón eliminar (form POST para CSRF-safe) -->
-                                    <form  method="post"
+                                    <form th:action="@{/clientes/eliminar/{id}(id=${cliente.id})}" method="post"
                                           th:onsubmit="return confirm('¿Eliminar cliente ' + ${cliente.nombre} + '?');"
                                           style="display:inline-block;">
                                         <!-- Si usas Spring Security, inyecta el token CSRF así -->

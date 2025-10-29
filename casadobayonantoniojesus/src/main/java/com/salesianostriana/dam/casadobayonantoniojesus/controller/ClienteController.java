@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -17,13 +19,19 @@ public class ClienteController {
     private final ClienteService clienteService;
 
 
-    @GetMapping("/")
+    @GetMapping("/clientes")
     public String inicio (Model model){
 
         List<Cliente> clientes = clienteService.obtenerTodosLosClientes();
         model.addAttribute("clientes", clientes);
         return "index";
 
+    }
+
+    @PostMapping("/clientes/eliminar/{id}")
+    public String eliminarCliente(@PathVariable Long id) {
+        clienteService.eliminarCliente(id);
+        return "redirect:/clientes";
     }
 
 

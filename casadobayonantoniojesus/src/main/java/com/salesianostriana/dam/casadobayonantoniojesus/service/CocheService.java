@@ -18,4 +18,8 @@ public class CocheService {
 
         return cocheRepository.findAll();
     }
+
+    public void eliminarCoche(Long id){
+        cocheRepository.deleteById(id);
+    }
 }

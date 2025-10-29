@@ -29,7 +29,7 @@
             </div>
 
             <nav class="nav flex-column">
-                <a class="nav-link d-flex align-items-center rounded-3 text-dark mb-1" href="#" th:href="@{/clientes}">
+                <a class="nav-link d-flex align-items-center rounded-3 text-dark mb-1"  th:href="@{/clientes}">
                     <i class="bi bi-people me-2"></i> Clientes
                 </a>
                 <a class="nav-link d-flex align-items-center rounded-3 active text-primary mb-1" href="#" th:href="@{/coches}">
@@ -97,22 +97,22 @@
                             <tbody>
                             <!-- Iteración de coches -->
                             <tr th:each="coche : ${coches}">
-                                <td class="fw-semibold" th:text="${coche.matricula}">1234ABC</td>
+                                <td class="fw-semibold" th:text="${coche.matricula}"></td>
 
                                 <td>
-                                    <div class="fw-semibold" th:text="${coche.marca}">Seat</div>
-                                    <div class="text-muted small" th:text="${coche.modelo}">León</div>
+                                    <div class="fw-semibold" th:text="${coche.marca}"></div>
+                                    <div class="text-muted small" th:text="${coche.modelo}"></div>
                                 </td>
 
                                 <!-- KMs: si quieres formatear con separador de miles en Thymeleaf puedes usar utilidades, aquí se muestra simple -->
-                                <td th:text="${coche.kms} + ' km'">85.000 km</td>
+                                <td th:text="${coche.kms} + ' km'"></td>
 
-                                <td th:text="${coche.cliente != null ? coche.cliente.nombre : '—'}">Juan Pérez García</td>
+                                <td th:text="${coche.cliente != null ? coche.cliente.nombre : '—'}"></td>
 
                                 <td>
                       <span class="text-warning d-inline-flex align-items-center">
                         <i class="bi bi-exclamation-circle-fill me-2"></i>
-                        <span th:text="${coche.problema}">Revisión de frenos</span>
+                        <span th:text="${coche.problema}"></span>
                       </span>
                                 </td>
 
@@ -127,11 +127,9 @@
                                         <i class="bi bi-pencil"></i>
                                     </a>
 
-                                    <form  method="post"
-
-                                          style="display:inline-block;">
-                                        <input type="hidden"  />
-                                        <button type="submit" class="btn btn-sm btn-outline-secondary rounded-2" title="Eliminar">
+                                    <form th:action="@{/coches/eliminar/{id}(id=${coche.id})}" method="post"style="display:inline-block;">
+                                        
+                                        <button onclick="return confirm ('¿Estas seguro que quieres eliminar este coche?')" class="btn btn-sm btn-outline-secondary rounded-2" title="Eliminar">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>

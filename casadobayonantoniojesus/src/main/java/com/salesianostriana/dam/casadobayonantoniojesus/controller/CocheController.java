@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -26,4 +28,12 @@ public class CocheController {
 
         return "coches";
     }
+
+    @PostMapping("/coches/eliminar/{id}")
+    public String eliminarCoche(@PathVariable Long id) {
+        cocheService.eliminarCoche(id);
+        return "redirect:/coches";
+    }
+
+
 }
