@@ -1,7 +1,9 @@
 package com.salesianostriana.dam.casadobayonantoniojesus.service;
 
 
+import com.salesianostriana.dam.casadobayonantoniojesus.model.Cliente;
 import com.salesianostriana.dam.casadobayonantoniojesus.model.Coche;
+import com.salesianostriana.dam.casadobayonantoniojesus.repository.IClienteRepository;
 import com.salesianostriana.dam.casadobayonantoniojesus.repository.ICocheRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -15,13 +17,13 @@ import java.util.List;
 public class CocheService {
 
     private final ICocheRepository cocheRepository;
+    private final IClienteRepository clienteRepository;
 
-    public List<Coche> obtenerTodosLosCoches(){
-
+    public List<Coche> obtenerTodosLosCoches() {
         return cocheRepository.findAll();
     }
 
-    public void eliminarCoche(Long id){
+    public void eliminarCoche(Long id) {
         cocheRepository.deleteById(id);
     }
 
@@ -32,16 +34,20 @@ public class CocheService {
                 : cocheRepository.findByMatriculaContainingIgnoreCase(filtro);
     }
 
-    public void guardarOActualizarCoche (Coche coche){
+    public void guardarOActualizarCoche(Coche coche) {
         cocheRepository.save(coche);
-
-        
     }
 
-    public Coche buscarPorId(Long id){
+    public void guardarNuevoCoche(Long clienteId, Coche coche) {
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado con ID: " + clienteId));
+        coche.setCliente(cliente);
+        cocheRepository.save(coche);
+    }
 
+    public Coche buscarPorId(Long id) {
         return cocheRepository.findById(id)
-        .orElseThrow(()-> new EntityNotFoundException("Coche no encontrado con ID: "+ id));
+                .orElseThrow(() -> new EntityNotFoundException("Coche no encontrado con ID: " + id));
     }
 
 }

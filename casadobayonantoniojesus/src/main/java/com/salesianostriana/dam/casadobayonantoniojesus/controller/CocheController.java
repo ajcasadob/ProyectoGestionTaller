@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.casadobayonantoniojesus.controller;
 
+import com.salesianostriana.dam.casadobayonantoniojesus.model.Cliente;
 import com.salesianostriana.dam.casadobayonantoniojesus.model.Coche;
 import com.salesianostriana.dam.casadobayonantoniojesus.service.ClienteService;
 import com.salesianostriana.dam.casadobayonantoniojesus.service.CocheService;
@@ -61,14 +62,22 @@ public class CocheController {
        return "formularioCoche";
    }
 
-   @PostMapping("/coches/nuevo")
-   public String guardarCoche(@ModelAttribute("coche") Coche coche, BindingResult result, Model model) {
-       if (result.hasErrors()) {
-           model.addAttribute("clientes", clienteService.obtenerTodosLosClientes());
-           return "formularioCoche";
-       }
-       cocheService.guardarOActualizarCoche(coche);
-       return "redirect:/coches";
-   }
+    @PostMapping("/coches/nuevo")
+    public String guardarCoche(
+            @ModelAttribute("coche") Coche coche,
+            BindingResult result,
+            Model model) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("clientes", clienteService.obtenerTodosLosClientes());
+            return "formularioCoche";
+        }
+
+        cocheService.guardarOActualizarCoche(coche);
+        return "redirect:/coches";
+    }
+
 
 }
+
+
