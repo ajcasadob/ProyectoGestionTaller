@@ -73,10 +73,30 @@ public class CocheController {
             return "formularioCoche";
         }
 
-        cocheService.guardarOActualizarCoche(coche);
+        cocheService.guardarCoche(coche);
         return "redirect:/coches";
     }
 
+    @GetMapping("/coches/editar/{id}")
+    public String mostrarFormularioEditarCoche(@PathVariable Long id, Model model) {
+        Coche coche = cocheService.buscarPorId(id);
+        model.addAttribute("coche", coche);
+        model.addAttribute("clientes", clienteService.obtenerTodosLosClientes());
+        return "formularioCoche";
+    }
+
+    @PostMapping ("/coches/editar/{id}")
+    public String actualizarCoche(
+            @ModelAttribute("coche") Coche coche,
+            BindingResult result,@RequestParam ("id") Long id,
+            Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("clientes", clienteService.obtenerTodosLosClientes());
+            return "formularioCoche";
+        }
+        cocheService.guardarOActualizarCoche(coche, id);
+        return "redirect:/coches";
+    }
 
 }
 

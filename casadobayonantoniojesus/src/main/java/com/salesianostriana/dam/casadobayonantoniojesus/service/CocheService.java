@@ -34,9 +34,19 @@ public class CocheService {
                 : cocheRepository.findByMatriculaContainingIgnoreCase(filtro);
     }
 
-    public void guardarOActualizarCoche(Coche coche) {
+    public void guardarCoche(Coche coche) {
         cocheRepository.save(coche);
     }
+
+    public void guardarOActualizarCoche(Coche coche, Long clienteId) {
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado con ID: " + clienteId));
+        coche.setCliente(cliente);
+        cocheRepository.save(coche);
+    }
+
+
+
 
     public void guardarNuevoCoche(Long clienteId, Coche coche) {
         Cliente cliente = clienteRepository.findById(clienteId)

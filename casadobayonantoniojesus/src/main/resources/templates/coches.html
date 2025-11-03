@@ -146,8 +146,13 @@
                                         </td>
 
                                         <td>
-                                            <a class="btn btn-sm btn-outline-secondary rounded-2 me-1" title="Editar">
+
+                                            <a th:href="@{/coches/editar/{id}(id=${coche.id})}"
+                                               class="btn btn-sm btn-outline-secondary rounded-2 me-1"
+                                               title="Editar">
                                                 <i class="bi bi-pencil"></i>
+                                            </a>
+
                                             </a>
 
                                             <form th:action="@{/coches/eliminar/{id}(id=${coche.id})}" method="post"
