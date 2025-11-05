@@ -177,18 +177,7 @@
                                                 class="btn btn-sm btn-outline-secondary rounded-2 me-1" title="Editar">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
-
-                                            <!-- Botón Eliminar -->
-                                            <form th:action="@{/coches/eliminar/{id}(id=${coche.id})}" method="post"
-                                                style="display:inline-block;">
-                                                <input type="hidden" th:name="${_csrf.parameterName}"
-                                                    th:value="${_csrf.token}" th:if="${_csrf}" />
-                                                <button type="submit" class="btn btn-sm btn-outline-danger rounded-2"
-                                                    title="Eliminar"
-                                                    th:onclick="'return confirm(\'¿Estás seguro que quieres eliminar el coche ' + ${coche.matricula} + '?\');'">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </form>
+                                            
                                         </td>
                                     </tr>
 
