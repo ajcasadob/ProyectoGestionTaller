@@ -90,6 +90,7 @@ public class CocheController {
             @ModelAttribute("coche") Coche coche,
             BindingResult result,@RequestParam ("id") Long id,
             Model model) {
+                
         if (result.hasErrors()) {
             model.addAttribute("clientes", clienteService.obtenerTodosLosClientes());
             return "formularioCoche";
