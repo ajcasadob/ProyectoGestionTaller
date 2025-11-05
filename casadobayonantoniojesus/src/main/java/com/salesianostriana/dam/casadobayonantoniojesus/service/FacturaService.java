@@ -22,5 +22,16 @@ public class FacturaService {
         return facturaRepository.findAll();
     }
 
+    public double calcularIngresosTotales (List<Factura> facturas ){
+
+        return facturas.stream().mapToDouble(Factura::getPrecio).sum();
+    }
+
+    public double calcularMediaIngresos ( List<Factura>facturas){
+        if(facturas.isEmpty()){
+            return 0.0;
+        }
+        return calcularIngresosTotales(facturas)/facturas.size();
+    }
 
 }
