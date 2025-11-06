@@ -30,4 +30,8 @@ public class ClienteService {
         return clienteRepository.findById(id).orElse(null);
 
     }
+
+    public void guardarCliente (Cliente cliente){
+        clienteRepository.save(cliente);
+    }
 }

@@ -3,12 +3,13 @@ package com.salesianostriana.dam.casadobayonantoniojesus.controller;
 
 import com.salesianostriana.dam.casadobayonantoniojesus.model.Cliente;
 import com.salesianostriana.dam.casadobayonantoniojesus.service.ClienteService;
+import com.salesianostriana.dam.casadobayonantoniojesus.service.CocheService;
+import com.salesianostriana.dam.casadobayonantoniojesus.service.FacturaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ import java.util.List;
 public class ClienteController {
 
     private final ClienteService clienteService;
+    private final CocheService cocheService;
+    private final FacturaService facturaService;
 
 
     @GetMapping("/clientes")
@@ -34,5 +37,28 @@ public class ClienteController {
         return "redirect:/clientes";
     }
 
+    @GetMapping("/nuevo")
+    public String mostrarFormularioNuevoCliente(Model model) {
+        model.addAttribute("cliente", new Cliente());
+
+        model.addAttribute("coches", cocheService.obtenerTodosLosCoches());
+        model.addAttribute("facturas", facturaService.obtenerTodasLasFacturas());
+        return "formularioCliente";
+    }
+
+    @PostMapping("/nuevo")
+    public String guardarCliente( @ModelAttribute("cliente") Cliente cliente,
+                                 BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("clientes", clienteService.obtenerTodosLosClientes());
+            model.addAttribute("facturas", facturaService.obtenerTodasLasFacturas());
+            return "formularioCliente";
+        }
+
+
+
+        return "redirect:/clientes";
+    }
 
 }
