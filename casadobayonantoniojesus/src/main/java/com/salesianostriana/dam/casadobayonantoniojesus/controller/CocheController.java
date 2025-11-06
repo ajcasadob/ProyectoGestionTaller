@@ -17,12 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
-import javax.naming.Binding;
-
 @Controller
 @RequiredArgsConstructor
 public class CocheController {
-
 
     private final CocheService cocheService;
     private final ClienteService clienteService;
@@ -31,8 +28,6 @@ public class CocheController {
     public String listarCoches(Model model) {
         List<Coche> coches = cocheService.obtenerTodosLosCoches();
         model.addAttribute("coches", coches);
-
-
 
         return "coches";
     }
@@ -43,7 +38,6 @@ public class CocheController {
         return "redirect:/coches";
     }
 
-
     @GetMapping("/coches/buscar")
     public String listarCoches(
             @RequestParam(value = "matricula", required = false) String matricula,
@@ -51,16 +45,16 @@ public class CocheController {
 
         List<Coche> coches = cocheService.buscarPorMatricula(matricula);
         model.addAttribute("coches", coches);
-        model.addAttribute("matricula", matricula); // Para mantener el valor en el input de búsqueda
+        model.addAttribute("matricula", matricula);
         return "coches";
     }
 
-   @GetMapping("/coches/nuevo")
-   public String mostrarFormularioNuevoCoche(Model model) {
-       model.addAttribute("coche", new Coche());
-       model.addAttribute("clientes", clienteService.obtenerTodosLosClientes());
-       return "formularioCoche";
-   }
+    @GetMapping("/coches/nuevo")
+    public String mostrarFormularioNuevoCoche(Model model) {
+        model.addAttribute("coche", new Coche());
+        model.addAttribute("clientes", clienteService.obtenerTodosLosClientes());
+        return "formularioCoche";
+    }
 
     @PostMapping("/coches/nuevo")
     public String guardarCoche(
@@ -85,12 +79,12 @@ public class CocheController {
         return "formularioCoche";
     }
 
-    @PostMapping ("/coches/editar/{id}")
+    @PostMapping("/coches/editar/{id}")
     public String actualizarCoche(
             @ModelAttribute("coche") Coche coche,
-            BindingResult result,@RequestParam ("id") Long id,
+            BindingResult result, @RequestParam("id") Long id,
             Model model) {
-                
+
         if (result.hasErrors()) {
             model.addAttribute("clientes", clienteService.obtenerTodosLosClientes());
             return "formularioCoche";
@@ -100,5 +94,3 @@ public class CocheController {
     }
 
 }
-
-

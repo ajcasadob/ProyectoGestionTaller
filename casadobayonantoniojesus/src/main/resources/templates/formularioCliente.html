@@ -1,76 +1,95 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>AutoService Pro — Formulario Cliente</title>
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.4/font/bootstrap-icons.css" rel="stylesheet">
 </head>
+
 <body class="bg-light">
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-8">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <h5 class="mb-0" th:text="${cliente != null and cliente.id != null} ? 'Editar Cliente' : 'Nuevo Cliente'">Nuevo Cliente</h5>
-                            <small class="text-muted">Rellena los datos del cliente</small>
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h5 class="mb-0"
+                                    th:text="${cliente != null and cliente.id != null} ? 'Editar Cliente' : 'Nuevo Cliente'">
+                                    Nuevo Cliente</h5>
+                                <small class="text-muted">Rellena los datos del cliente</small>
+                            </div>
+                            <a th:href="@{/clientes}" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Volver
+                            </a>
                         </div>
-                        <a th:href="@{/clientes}" class="btn btn-sm btn-outline-secondary">Volver</a>
+
+                        <form th:object="${cliente}" th:action="@{/clientes/nuevo}" method="post">
+                            <!-- Campo oculto para el ID (necesario para edición) -->
+                            <input type="hidden" th:field="*{id}" />
+
+                            <!-- DNI -->
+                            <div class="mb-3">
+                                <label for="dni" class="form-label">
+                                    <i class="bi bi-card-text me-1"></i>DNI *
+                                </label>
+                                <input type="text" id="dni" th:field="*{dni}" class="form-control"
+                                    placeholder="12345678A" pattern="[0-9]{8}[A-Za-z]" required />
+                                <div class="form-text">Formato: 8 números seguidos de una letra</div>
+                                <div class="text-danger small" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">
+                                </div>
+                            </div>
+
+                            <!-- Nombre -->
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">
+                                    <i class="bi bi-person me-1"></i>Nombre Completo *
+                                </label>
+                                <input type="text" id="nombre" th:field="*{nombre}" class="form-control"
+                                    placeholder="Juan García López" required />
+                                <div class="text-danger small" th:if="${#fields.hasErrors('nombre')}"
+                                    th:errors="*{nombre}"></div>
+                            </div>
+
+                            <!-- Teléfono -->
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label">
+                                    <i class="bi bi-telephone me-1"></i>Teléfono *
+                                </label>
+                                <input type="tel" id="telefono" th:field="*{telefono}" class="form-control"
+                                    placeholder="600123456" pattern="[0-9]{9}" required />
+                                <div class="form-text">9 dígitos sin espacios</div>
+                                <div class="text-danger small" th:if="${#fields.hasErrors('telefono')}"
+                                    th:errors="*{telefono}"></div>
+                            </div>
+
+                            <!-- Botones de acción -->
+                            <div class="d-flex justify-content-end gap-2 mt-4">
+                                <a th:href="@{/clientes}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-x-lg me-1"></i>Cancelar
+                                </a>
+                                <button type="submit" class="btn btn-dark">
+                                    <i class="bi bi-check-lg me-1"></i>
+                                    <span
+                                        th:text="${cliente != null and cliente.id != null} ? 'Actualizar' : 'Guardar'">Guardar</span>
+                                </button>
+                            </div>
+                        </form>
                     </div>
-
-
-                    <form th:object="${cliente}" th:action="@{/clientes/nuevo}" method="post">
-                        <input type="hidden" th:field="*{id}" />
-
-                        <!-- campos básicos -->
-                        <div class="mb-3">
-                            <label class="form-label">DNI</label>
-                            <input type="text" th:field="*{dni}" class="form-control" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Nombre</label>
-                            <input type="text" th:field="*{nombre}" class="form-control" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Teléfono</label>
-                            <input type="text" th:field="*{telefono}" class="form-control" />
-                        </div>
-
-                        <!-- Select múltiple de coches (opcional) -->
-                        <div class="mb-3">
-                            <label class="form-label">Coches existentes (asignar al cliente)</label>
-                            <select name="cocheIds" multiple class="form-select">
-                                <option th:each="c : ${coches}" th:value="${c.id}"
-                                        th:text="${c.matricula + ' — ' + c.marca + ' ' + c.modelo}"></option>
-                            </select>
-                            <div class="form-text">Mantén Ctrl/Cmd para seleccionar varios.</div>
-                        </div>
-
-                        <!-- Select múltiple de facturas (si Factura tiene cliente directo) -->
-                        <div class="mb-3">
-                            <label class="form-label">Facturas existentes (asignar al cliente)</label>
-                            <select name="facturaIds" multiple class="form-select">
-                                <option th:each="f : ${facturas}" th:value="${f.id}"
-                                        th:text="${'#' + f.id + ' — ' + f.pieza + ' — ' + f.precio + ' €'}"></option>
-                            </select>
-                        </div>
-
-                        <div class="d-flex justify-content-end gap-2">
-                            <a th:href="@{/clientes}" class="btn btn-outline-secondary">Cancelar</a>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                        </div>
-                    </form>
-
                 </div>
             </div>
         </div>
     </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
