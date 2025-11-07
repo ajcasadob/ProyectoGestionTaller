@@ -26,5 +26,6 @@ public class Taller {
     private String nombre;
     private String direccion;
     private String nif;
-    private LocalDate horario;
+    private String horario;
+    private LocalDate fechaCreacion;
 }

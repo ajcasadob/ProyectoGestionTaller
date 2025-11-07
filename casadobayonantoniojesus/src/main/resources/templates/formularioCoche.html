@@ -66,15 +66,14 @@
 							</div>
 
 							<div class="mb-3">
-								<label class="form-label">Cliente (opcional)</label>
+								<label class="form-label">Cliente</label>
 								<select th:field="*{cliente.id}" class="form-select">
-									<option value="">-- Sin cliente --</option>
 									<option th:each="cliente : ${clientes}"
 											th:value="${cliente.id}"
-											th:text="${cliente.nombre} + ' ' + cliente.apellidos">
+											th:text="${cliente.nombre}">
 									</option>
 								</select>
-								<div class="text-muted small mt-1">Si no hay clientes en el modelo, la lista aparecerá vacía.</div>
+								
 							</div>
 
 							<div class="d-flex justify-content-end gap-2">

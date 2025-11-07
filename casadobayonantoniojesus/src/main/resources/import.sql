@@ -4,7 +4,11 @@ INSERT INTO CLIENTE (NOMBRE, TELEFONO, DNI) VALUES ('María López Fernández', 
 INSERT INTO CLIENTE (NOMBRE, TELEFONO, DNI) VALUES ('Carlos Sánchez Ruiz', '688 345 678', '34567890C');
 
 -- Taller
-INSERT INTO TALLER (NOMBRE, DIRECCION, NIF, HORARIO) VALUES ('Taller Central', 'Calle Falsa 123, Ciudad', 'A12345678', '2025-01-01');
+
+
+INSERT INTO taller (NOMBRE, DIRECCION, NIF, HORARIO, FECHA_CREACION) VALUES ('AutoService Pro', 'Calle Salesianos, 123, 41010 Sevilla', '12345678A', 'Lunes a Viernes: 8:00-18:00, Sábados: 9:00-14:00', '2020-01-15');
+
+-- Resto de tus datos...
 
 -- Coches
 INSERT INTO COCHE (MATRICULA, MARCA, MODELO, KMS, IMAGEN_URL, PROBLEMA, CLIENTE_ID) VALUES ('ABC1234', 'Toyota', 'Corolla', 123456.0, 'https://i.imgur.com/F1aiTqU.jpeg', 'Cambio de frenos', 1);

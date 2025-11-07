@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AutoService Pro — Taller</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.4/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- Sidebar -->
+            <aside class="col-auto col-md-3 col-lg-2 px-3 bg-white vh-100 border-end">
+                <div class="d-flex align-items-center py-4">
+                    <div class="bg-primary text-white rounded-3 d-inline-flex align-items-center justify-content-center me-3"
+                        style="width:46px;height:46px;">
+                        <i class="bi bi-car-front-fill fs-5"></i>
+                    </div>
+                    <div>
+                        <div class="fw-bold">AutoService Pro</div>
+                        <small class="text-muted">Gestión de Taller</small>
+                    </div>
+                </div>
+
+                <nav class="nav flex-column">
+                    <a class="nav-link d-flex align-items-center rounded-3 text-dark mb-1" th:href="@{/clientes}">
+                        <i class="bi bi-people me-2"></i> Clientes
+                    </a>
+                    <a class="nav-link d-flex align-items-center rounded-3 text-dark mb-1" th:href="@{/coches}">
+                        <i class="bi bi-car-front me-2"></i> Coches
+                    </a>
+                    <a class="nav-link d-flex align-items-center rounded-3 text-dark mb-1" th:href="@{/facturas}">
+                        <i class="bi bi-file-earmark-text me-2"></i> Facturas
+                    </a>
+                    <a class="nav-link d-flex align-items-center rounded-3 active text-primary mb-1"
+                        th:href="@{/taller}">
+                        <i class="bi bi-gear me-2"></i> Taller
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Main -->
+            <main class="col py-4">
+                <!-- Topbar -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-outline-secondary d-lg-none" type="button" aria-label="menu">
+                            <i class="bi bi-list"></i>
+                        </button>
+                        <div class="d-flex align-items-center text-muted">
+                            <i class="bi bi-gear fs-5 me-2"></i>
+                            <span class="fs-6 fw-semibold">Taller</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensaje de éxito -->
+                <div th:if="${mensaje}" class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <span th:text="${mensaje}">Operación exitosa</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <!-- Page title -->
+                <section class="mb-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h1 class="h3 fw-bold mb-1">Información del Taller</h1>
+                            <p class="text-muted mb-0">Gestiona la información general del taller</p>
+                        </div>
+                        <a th:href="@{/taller/editar}" class="btn btn-dark rounded-pill px-4">
+                            <i class="bi bi-pencil me-2"></i> Editar Información
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Datos del Taller -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Datos del Taller</h5>
+                        <p class="text-muted small mb-4">Información general del establecimiento</p>
+
+                        <div class="row g-4">
+                            <!-- Nombre del Taller -->
+                            <div class="col-12">
+                                <div class="d-flex align-items-start">
+                                    <div class="bg-light rounded-3 p-2 me-3">
+                                        <i class="bi bi-building fs-4 text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-muted small">Nombre del Taller</div>
+                                        <div class="fw-semibold" th:text="${taller.nombre}">AutoService Pro</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dirección -->
+                            <div class="col-12">
+                                <div class="d-flex align-items-start">
+                                    <div class="bg-light rounded-3 p-2 me-3">
+                                        <i class="bi bi-geo-alt fs-4 text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-muted small">Dirección</div>
+                                        <div class="fw-semibold" th:text="${taller.direccion}">
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- NIF -->
+                            <div class="col-12 col-md-6">
+                                <div class="d-flex align-items-start">
+                                    <div class="bg-light rounded-3 p-2 me-3">
+                                        <i class="bi bi-file-text fs-4 text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-muted small">NIF</div>
+                                        <div class="fw-semibold" th:text="${taller.nif}"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Horario -->
+                            <div class="col-12 col-md-6">
+                                <div class="d-flex align-items-start">
+                                    <div class="bg-light rounded-3 p-2 me-3">
+                                        <i class="bi bi-clock fs-4 text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-muted small">Horario</div>
+                                        <div class="fw-semibold" th:text="${taller.horario}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Fecha de Creación -->
+                            <div class="col-12 col-md-6">
+                                <div class="d-flex align-items-start">
+                                    <div class="bg-light rounded-3 p-2 me-3">
+                                        <i class="bi bi-calendar-check fs-4 text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-muted small">Fecha de Apertura</div>
+                                        <div class="fw-semibold"
+                                            th:text="${taller.fechaCreacion != null ? #temporals.format(taller.fechaCreacion, 'dd/MM/yyyy') : 'No especificada'}">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estadísticas y Contacto -->
+                <div class="row g-4">
+                    <!-- Estadísticas -->
+                    <div class="col-12 col-lg-6">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">Estadísticas</h5>
+                                <p class="text-muted small mb-4">Resumen de la actividad del taller</p>
+
+                                <div class="d-flex flex-column gap-3">
+                                    <!-- Total Clientes -->
+                                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                        <span class="text-muted">Total Clientes</span>
+                                        <span class="fs-4 fw-bold text-primary" th:text="${totalClientes}">0</span>
+                                    </div>
+
+                                    <!-- Total Vehículos -->
+                                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                        <span class="text-muted">Total Vehículos</span>
+                                        <span class="fs-4 fw-bold text-success" th:text="${totalCoches}">0</span>
+                                    </div>
+
+                                    <!-- Total Facturas -->
+                                    <div class="d-flex justify-content-between align-items-center py-2">
+                                        <span class="text-muted">Total Facturas</span>
+                                        <span class="fs-4 fw-bold text-info" th:text="${totalFacturas}">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contacto -->
+                    <div class="col-12 col-lg-6">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">Contacto</h5>
+                                <p class="text-muted small mb-4">Información de contacto del taller</p>
+
+                                <div class="d-flex flex-column gap-3">
+                                    <!-- Dirección de Contacto -->
+                                    <div>
+                                        <div class="text-muted small mb-1">
+                                            <i class="bi bi-geo-alt-fill me-1"></i> Dirección
+                                        </div>
+                                        <div class="fw-semibold" th:text="${taller.direccion}">
+                                            </div>
+                                    </div>
+
+                                    <!-- Horario de Atención -->
+                                    <div>
+                                        <div class="text-muted small mb-1">
+                                            <i class="bi bi-clock-fill me-1"></i> Horario de Atención
+                                        </div>
+                                        <div class="fw-semibold" th:text="${taller.horario}">
+                                            </div>
+                                    </div>
+
+                                    <!-- NIF -->
+                                    <div>
+                                        <div class="text-muted small mb-1">
+                                            <i class="bi bi-file-text-fill me-1"></i> NIF
+                                        </div>
+                                        <div class="fw-semibold" th:text="${taller.nif}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
