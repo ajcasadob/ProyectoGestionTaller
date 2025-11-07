@@ -18,6 +18,10 @@ public class FacturaService {
     private final IFacturaRepository facturaRepository;
 
 
+    
+   
+
+
     public List<Factura> obtenerTodasLasFacturas() {
         return facturaRepository.findAll();
     }

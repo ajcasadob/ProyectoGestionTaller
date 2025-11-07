@@ -31,10 +31,21 @@ public String listarFacturas (Model model){
     model.addAttribute("facturas", facturas);
     model.addAttribute("ingresosTotales", facturaService.calcularIngresosTotales(facturas));
     model.addAttribute("mediaIngresos", facturaService.calcularMediaIngresos(facturas));
+
     return "facturas";
+
+    
 
 
 }
+
+
+
+
+
+
+
+
 
 
 
