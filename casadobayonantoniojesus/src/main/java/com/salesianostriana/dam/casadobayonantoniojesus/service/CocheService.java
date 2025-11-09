@@ -46,15 +46,6 @@ public class CocheService {
     }
 
 
-
-
-    public void guardarNuevoCoche(Long clienteId, Coche coche) {
-        Cliente cliente = clienteRepository.findById(clienteId)
-                .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado con ID: " + clienteId));
-        coche.setCliente(cliente);
-        cocheRepository.save(coche);
-    }
-
     public Coche buscarPorId(Long id) {
         return cocheRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Coche no encontrado con ID: " + id));

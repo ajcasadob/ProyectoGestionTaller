@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.foreign.Linker.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,7 +35,6 @@ public class ClienteController {
         return "redirect:/clientes";
     }
 
-   
     @GetMapping("/clientes/nuevo")
     public String mostrarFormularioNuevoCliente(Model model) {
         model.addAttribute("cliente", new Cliente());
@@ -42,7 +43,6 @@ public class ClienteController {
         return "formularioCliente";
     }
 
-   
     @PostMapping("/clientes/nuevo")
     public String guardarCliente(@ModelAttribute("cliente") Cliente cliente,
             BindingResult result, Model model) {
@@ -53,9 +53,34 @@ public class ClienteController {
             return "formularioCliente";
         }
 
-        
         clienteService.guardarCliente(cliente);
 
+        return "redirect:/clientes";
+    }
+
+    @GetMapping("/clientes/editar/{id}")
+    public String mostrarFormularioEditarCliente(@PathVariable Long id, Model model) {
+
+        Optional<Cliente> cliente = Optional.ofNullable(clienteService.findbyId(id));
+        model.addAttribute("cliente", cliente.get());
+        model.addAttribute("coches", cocheService.obtenerTodosLosCoches());
+        model.addAttribute("facturas", facturaService.obtenerTodasLasFacturas());
+        return "formularioCliente";
+    }
+
+    @PostMapping("/clientes/editar/{id}")
+    public String actualizarCliente(@PathVariable Long id,
+            @ModelAttribute("cliente") Cliente cliente,
+            BindingResult result,
+            Model model) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("coches", cocheService.obtenerTodosLosCoches());
+            model.addAttribute("facturas", facturaService.obtenerTodasLasFacturas());
+            return "formularioCliente";
+        }
+
+        clienteService.actulizarCliente(cliente, id);
         return "redirect:/clientes";
     }
 

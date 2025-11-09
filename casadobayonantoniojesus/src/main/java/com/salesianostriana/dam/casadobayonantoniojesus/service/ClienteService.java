@@ -3,10 +3,13 @@ package com.salesianostriana.dam.casadobayonantoniojesus.service;
 
 import com.salesianostriana.dam.casadobayonantoniojesus.model.Cliente;
 import com.salesianostriana.dam.casadobayonantoniojesus.repository.IClienteRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +34,16 @@ public class ClienteService {
 
     public void guardarCliente (Cliente cliente){
         clienteRepository.save(cliente);
+    }
+
+    public void actulizarCliente (Cliente cliente, Long id){
+
+        Optional<Cliente> c = clienteRepository.findById(id);
+        if(c.isPresent()){
+            cliente.setId(id);
+            clienteRepository.save(cliente);
+        } else {
+            throw new EntityNotFoundException("Cliente no encontrado con ID: " + id);
+        }
     }
 }
