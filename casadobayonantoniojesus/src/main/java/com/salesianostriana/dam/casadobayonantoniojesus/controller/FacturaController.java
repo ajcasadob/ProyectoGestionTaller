@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.salesianostriana.dam.casadobayonantoniojesus.model.Factura;
 import com.salesianostriana.dam.casadobayonantoniojesus.service.ClienteService;
@@ -39,15 +42,43 @@ public String listarFacturas (Model model){
 
 }
 
+@PostMapping("/facturas/eliminar/{id}")
+public String eliminarFactura (@PathVariable Long id){
+    facturaService.eliminarFactura(id);
+    return "redirect:/facturas";
+}
+
+@GetMapping("/facturas/nueva")
+public String mostrarFormulario(Model model) {
+    model.addAttribute("factura", new Factura());
+    model.addAttribute("clientes", clienteService.obtenerTodosLosClientes());
+    model.addAttribute("coches", cocheService.obtenerTodosLosCoches());
+    return "formularioFactura";
+}
+
+@PostMapping("/facturas/guardar")
+public String guardarFactura(@ModelAttribute Factura factura) {
+    facturaService.guardarFactura(factura);;
+    return "redirect:/facturas";
+}
+
+@GetMapping("/facturas/editar/{id}")
+public String mostrarFormularioEdicion(@PathVariable Long id, Model model) {
+    Factura factura = facturaService.findById(id);
+    model.addAttribute("factura", factura);
+    model.addAttribute("clientes", clienteService.obtenerTodosLosClientes());
+    model.addAttribute("coches", cocheService.obtenerTodosLosCoches());
+    return "formularioFactura";
+
+}
 
 
-
-
-
-
-
-
-
-
+@PostMapping("/facturas/editar/{id}")
+public String actualizarFactura(@PathVariable Long id,
+        @ModelAttribute Factura factura) {
+    factura.setId(id);
+    facturaService.guardarFactura(factura);
+    return "redirect:/facturas";
+        }
 
 }

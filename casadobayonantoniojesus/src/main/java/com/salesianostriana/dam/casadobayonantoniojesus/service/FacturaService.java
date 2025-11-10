@@ -38,4 +38,16 @@ public class FacturaService {
         return calcularIngresosTotales(facturas)/facturas.size();
     }
 
+    public void eliminarFactura(Long id) {
+        facturaRepository.deleteById(id);
+    }
+
+    public void guardarFactura(Factura factura) {
+        facturaRepository.save(factura);
+    }
+
+    public Factura findById(Long id) {
+        return facturaRepository.findById(id).orElse(null);
+    }
+
 }
