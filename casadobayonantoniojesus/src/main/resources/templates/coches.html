@@ -165,29 +165,24 @@
                                         </td>
 
                                         <td>
-                                            <!-- Botón Ver detalles -->
-                                            <a th:if="${coche.imagenUrl != null and !#strings.isEmpty(coche.imagenUrl)}"
-                                                th:href="${coche.imagenUrl}" target="_blank" rel="noopener noreferrer"
-                                                class="btn btn-sm btn-outline-primary rounded-2 me-1"
-                                                title="Ver imagen">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-
-                                            <!-- fallback a ver detalles si no hay imagen -->
-                                            <a th:if="${coche.imagenUrl == null or #strings.isEmpty(coche.imagenUrl)}"
-                                                th:href="@{/coches/{id}(id=${coche.id})}"
-                                                class="btn btn-sm btn-outline-primary rounded-2 me-1"
-                                                title="Ver detalles">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-
-                                            <!-- Botón Editar -->
-                                            <a th:href="@{/coches/editar/{id}(id=${coche.id})}"
-                                                class="btn btn-sm btn-outline-secondary rounded-2 me-1" title="Editar">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-
+                                            <div class="d-flex">
+                                                
+                                                <a th:href="@{/coches/editar/{id}(id=${coche.id})}"
+                                                    class="btn btn-sm btn-outline-secondary rounded-2" title="Editar">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                
+                                                <form th:action="@{/coches/eliminar/{id}(id=${coche.id})}" method="post"
+                                                    class="me-1">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-outline-secondary rounded-2"
+                                                        title="Eliminar">
+                                                        <i class="bi bi-trash text-danger"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
+
                                     </tr>
 
                                     <!-- Mensaje cuando no hay coches -->

@@ -3,8 +3,10 @@ package com.salesianostriana.dam.casadobayonantoniojesus.service;
 
 import com.salesianostriana.dam.casadobayonantoniojesus.model.Cliente;
 import com.salesianostriana.dam.casadobayonantoniojesus.model.Coche;
+import com.salesianostriana.dam.casadobayonantoniojesus.model.Factura;
 import com.salesianostriana.dam.casadobayonantoniojesus.repository.IClienteRepository;
 import com.salesianostriana.dam.casadobayonantoniojesus.repository.ICocheRepository;
+import com.salesianostriana.dam.casadobayonantoniojesus.repository.IFacturaRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +20,28 @@ public class CocheService {
 
     private final ICocheRepository cocheRepository;
     private final IClienteRepository clienteRepository;
+    private final IFacturaRepository facturaRepository;
 
     public List<Coche> obtenerTodosLosCoches() {
         return cocheRepository.findAll();
     }
 
     public void eliminarCoche(Long id) {
-        cocheRepository.deleteById(id);
+    Coche coche = cocheRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Coche no encontrado con ID: " ));
+
+    
+    List<Factura> facturas = facturaRepository.findAllByCoche(coche);
+
+    for (Factura factura : facturas) {
+        factura.setCoche(null);
+        facturaRepository.save(factura);
     }
+
+   
+    cocheRepository.delete(coche);
+}
+
 
     public List<Coche> buscarPorMatricula(String matricula) {
         String filtro = (matricula != null) ? matricula.trim() : "";

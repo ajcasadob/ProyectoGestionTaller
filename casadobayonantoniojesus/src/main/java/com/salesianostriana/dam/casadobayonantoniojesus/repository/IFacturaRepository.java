@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.casadobayonantoniojesus.repository;
 
+import com.salesianostriana.dam.casadobayonantoniojesus.model.Coche;
 import com.salesianostriana.dam.casadobayonantoniojesus.model.Factura;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface IFacturaRepository extends JpaRepository<Factura,Long> {
 
     //Ordenar facturas por fecha descendente
     public List<Factura> findAllByOrderByFechaDesc();
+    public  List<Factura> findAllByCoche(Coche coche);
+
 }
