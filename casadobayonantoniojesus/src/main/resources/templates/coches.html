@@ -165,23 +165,22 @@
                                         </td>
 
                                         <td>
-                                            <div class="d-flex">
-                                                
-                                                <a th:href="@{/coches/editar/{id}(id=${coche.id})}"
-                                                    class="btn btn-sm btn-outline-secondary rounded-2" title="Editar">
-                                                    <i class="bi bi-pencil"></i>
-                                                </a>
-                                                
-                                                <form th:action="@{/coches/eliminar/{id}(id=${coche.id})}" method="post"
-                                                    class="me-1">
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-outline-secondary rounded-2"
-                                                        title="Eliminar">
-                                                        <i class="bi bi-trash text-danger"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
+                                            <!-- Enlace editar -->
+                                            <a th:href="@{/coches/editar/{id}(id=${coche.id})}"
+                                                class="btn btn-sm btn-outline-secondary rounded-2 me-1" title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+
+                                            <!-- Botón eliminar (form POST) -->
+                                            <form th:action="@{/coches/eliminar/{id}(id=${coche.id})}" method="post"
+                                                style="display:inline-block;">
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-outline-danger rounded-2" title="Eliminar">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
                                         </td>
+
 
                                     </tr>
 
