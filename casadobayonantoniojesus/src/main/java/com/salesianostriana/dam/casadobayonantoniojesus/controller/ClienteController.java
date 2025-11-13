@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.foreign.Linker.Option;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -83,5 +83,15 @@ public class ClienteController {
         clienteService.actulizarCliente(cliente, id);
         return "redirect:/clientes";
     }
+
+    @GetMapping("/clientes/{id}/total-facturado")
+    public String mostrarTotalFacturado(@PathVariable Long id, Model model) {
+        double totalFacturado = clienteService.totalFacturadoPorCliente(id);
+        model.addAttribute("totalFacturado", totalFacturado);
+        model.addAttribute("cliente", clienteService.findbyId(id));
+        return "ClienteTotalFacturado";
+    }
+
+
 
 }

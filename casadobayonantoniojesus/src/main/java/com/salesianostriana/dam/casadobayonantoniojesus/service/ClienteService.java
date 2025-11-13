@@ -2,6 +2,7 @@ package com.salesianostriana.dam.casadobayonantoniojesus.service;
 
 
 import com.salesianostriana.dam.casadobayonantoniojesus.model.Cliente;
+import com.salesianostriana.dam.casadobayonantoniojesus.model.Factura;
 import com.salesianostriana.dam.casadobayonantoniojesus.repository.IClienteRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -46,4 +47,16 @@ public class ClienteService {
             throw new EntityNotFoundException("Cliente no encontrado con ID: " + id);
         }
     }
+
+    public double totalFacturadoPorCliente(Long clienteId) {
+        return clienteRepository.findById(clienteId)
+                .map(cliente -> cliente.getFacturas().stream()
+                        .mapToDouble(Factura::getPrecio)
+                        .reduce(0, Double::sum))
+                .orElse(0.0);
+
+
+
+    }
+
 }

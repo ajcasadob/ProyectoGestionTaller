@@ -134,23 +134,30 @@
                                         </td>
 
                                         <td>
-                                            
                                             <!-- Enlace editar -->
                                             <a th:href="@{/clientes/editar/{id}(id=${cliente.id})}"
-                                                class="btn btn-sm btn-outline-secondary rounded-2 me-1" title="Editar">
+                                               class="btn btn-sm btn-outline-secondary rounded-2 me-1" title="Editar">
                                                 <i class="bi bi-pencil"></i>
+                                            </a>
+
+                                            <!-- Botón ver total facturado -->
+                                            <a th:href="@{/clientes/{id}/total-facturado(id=${cliente.id})}"
+                                               class="btn btn-sm btn-outline-info rounded-2 me-1"
+                                               title="Ver total facturado">
+                                                <i class="bi bi-cash-coin"></i>
                                             </a>
 
                                             <!-- Botón eliminar (form POST) -->
                                             <form th:action="@{/clientes/eliminar/{id}(id=${cliente.id})}" method="post"
-                                                style="display:inline-block;">
+                                                  style="display:inline-block;">
                                                 <button type="submit" th:data-nombre="${cliente.nombre}"
-                                                    onclick="return confirm('¿Eliminar cliente ' + this.getAttribute('data-nombre') + '?')"
-                                                    class="btn btn-sm btn-outline-danger rounded-2" title="Eliminar">
+                                                        onclick="return confirm('¿Eliminar cliente ' + this.getAttribute('data-nombre') + '?')"
+                                                        class="btn btn-sm btn-outline-danger rounded-2" title="Eliminar">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </form>
                                         </td>
+
                                     </tr>
 
                                     <!-- Mensaje cuando no hay clientes -->
