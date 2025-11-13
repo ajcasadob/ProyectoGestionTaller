@@ -52,11 +52,9 @@ public class ClienteService {
         return clienteRepository.findById(clienteId)
                 .map(cliente -> cliente.getFacturas().stream()
                         .mapToDouble(Factura::getPrecio)
-                        .reduce(0, Double::sum))
+                        .sum())
                 .orElse(0.0);
-
-
-
     }
+
 
 }
