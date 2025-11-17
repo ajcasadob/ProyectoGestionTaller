@@ -27,6 +27,11 @@ public class FacturaController {
         model.addAttribute("facturas", facturas);
         model.addAttribute("ingresosTotales", facturaService.obtenerIngresosTotales());
         model.addAttribute("mediaIngresos", facturaService.obtenerMediaIngresos());
+        model.addAttribute("topClientes", clienteService.top5ClientesConMayorGasto());
+        model.addAttribute("facturasMesActual", facturaService.cantidadFacturasMesActual());
+        model.addAttribute("ingresosMesActual", facturaService.ingresosMesActual());
+
+
         return "facturas";
     }
 
@@ -65,23 +70,5 @@ public class FacturaController {
         factura.setId(id);
         facturaService.guardarFactura(factura);
         return "redirect:/facturas";
-    }
-
-    @PostMapping("/facturas/aplicar-descuento/{id}")
-    public String aplicarDescuentoFactura(@PathVariable Long id,
-                                          @RequestParam("descuento") double descuento,
-                                          Model model) {
-        Factura factura = facturaService.findById(id);
-        facturaService.aplicarDescuentoFactura(factura, descuento);
-        facturaService.guardarFactura(factura);
-
-        List<Factura> facturas = facturaService.obtenerTodasLasFacturas();
-        model.addAttribute("facturas", facturas);
-        model.addAttribute("ingresosTotales", facturaService.obtenerIngresosTotales());
-        model.addAttribute("mediaIngresos", facturaService.obtenerMediaIngresos());
-        model.addAttribute("factura", factura);
-        model.addAttribute("descuento", descuento);
-
-        return "facturas";
     }
 }

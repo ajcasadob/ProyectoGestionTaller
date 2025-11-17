@@ -15,195 +15,228 @@
 
 <body class="bg-light">
 
-    <div class="container-fluid">
-        <div class="row">
+<div class="container-fluid">
+    <div class="row">
 
-            <!-- Sidebar -->
-            <aside class="col-auto col-md-3 col-lg-2 px-3 bg-white vh-100 border-end">
-                <div class="d-flex align-items-center py-4">
-                    <div class="bg-primary text-white rounded-3 d-inline-flex align-items-center justify-content-center me-3"
-                        style="width:46px;height:46px;">
-                        <i class="bi bi-car-front-fill fs-5"></i>
-                    </div>
-                    <div>
-                        <div class="fw-bold">AutoService Pro</div>
-                        <small class="text-muted">Gestión de Taller</small>
+        <!-- Sidebar -->
+        <aside class="col-auto col-md-3 col-lg-2 px-3 bg-white vh-100 border-end">
+            <div class="d-flex align-items-center py-4">
+                <div class="bg-primary text-white rounded-3 d-inline-flex align-items-center justify-content-center me-3"
+                     style="width:46px;height:46px;">
+                    <i class="bi bi-car-front-fill fs-5"></i>
+                </div>
+                <div>
+                    <div class="fw-bold">AutoService Pro</div>
+                    <small class="text-muted">Gestión de Taller</small>
+                </div>
+            </div>
+
+            <nav class="nav flex-column">
+                <a class="nav-link d-flex align-items-center rounded-3 text-dark mb-1" th:href="@{/clientes}">
+                    <i class="bi bi-people me-2"></i> Clientes
+                </a>
+                <a class="nav-link d-flex align-items-center rounded-3 active text-primary mb-1"
+                   th:href="@{/coches}">
+                    <i class="bi bi-car-front me-2"></i> Coches
+                </a>
+                <a class="nav-link d-flex align-items-center rounded-3 text-dark mb-1" th:href="@{/facturas}">
+                    <i class="bi bi-file-earmark-text me-2"></i> Facturas
+                </a>
+                <a class="nav-link d-flex align-items-center rounded-3 text-dark mb-1" th:href="@{/taller}">
+                    <i class="bi bi-gear me-2"></i> Taller
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main -->
+        <main class="col py-4">
+            <!-- Topbar -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-secondary d-lg-none" type="button" aria-label="menu">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <div class="d-flex align-items-center text-muted">
+                        <i class="bi bi-car-front fs-5 me-2"></i>
+                        <span class="fs-6 fw-semibold">Coches</span>
                     </div>
                 </div>
 
-                <nav class="nav flex-column">
-                    <a class="nav-link d-flex align-items-center rounded-3 text-dark mb-1" th:href="@{/clientes}">
-                        <i class="bi bi-people me-2"></i> Clientes
-                    </a>
-                    <a class="nav-link d-flex align-items-center rounded-3 active text-primary mb-1"
-                        th:href="@{/coches}">
-                        <i class="bi bi-car-front me-2"></i> Coches
-                    </a>
-                    <a class="nav-link d-flex align-items-center rounded-3 text-dark mb-1" th:href="@{/facturas}">
-                        <i class="bi bi-file-earmark-text me-2"></i> Facturas
-                    </a>
-                    <a class="nav-link d-flex align-items-center rounded-3 text-dark mb-1" th:href="@{/taller}">
-                        <i class="bi bi-gear me-2"></i> Taller
-                    </a>
-                </nav>
-            </aside>
+                <div class="d-flex align-items-center">
+                    <!-- Búsqueda -->
+                    <form th:action="@{/coches/buscar}" method="get" class="me-3">
+                        <div class="d-flex align-items-center bg-light border rounded-pill px-3 py-1">
+                            <button type="submit" class="btn btn-link text-muted p-0 me-2 border-0">
+                                <i class="bi bi-search"></i>
+                            </button>
 
-            <!-- Main -->
-            <main class="col py-4">
-                <!-- Topbar -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div class="d-flex align-items-center gap-2">
-                        <button class="btn btn-outline-secondary d-lg-none" type="button" aria-label="menu">
-                            <i class="bi bi-list"></i>
-                        </button>
-                        <div class="d-flex align-items-center text-muted">
-                            <i class="bi bi-car-front fs-5 me-2"></i>
-                            <span class="fs-6 fw-semibold">Coches</span>
+                            <input type="search" name="matricula"
+                                   class="form-control border-0 bg-transparent shadow-none"
+                                   placeholder="Buscar por matrícula, marca, modelo..." th:value="${matricula}">
                         </div>
+                    </form>
+
+                    <a th:href="@{/coches/nuevo}" class="btn btn-dark rounded-pill px-4">
+                        <i class="bi bi-plus-lg me-2"></i> Nuevo Coche
+                    </a>
+                </div>
+            </div>
+
+            <!-- Page title -->
+            <section class="mb-4">
+                <h1 class="h3 fw-bold mb-1">Gestión de Coches</h1>
+                <p class="text-muted mb-0">Administra los vehículos del taller</p>
+            </section>
+
+            <!-- Estadística: Coches por Marca -->
+            <section class="mb-4">
+                <div class="card rounded-3 shadow-sm border-0">
+                    <div class="card-header bg-white border-bottom">
+                        <h6 class="mb-0 fw-bold">
+                            <i class="bi bi-bar-chart-fill text-primary me-2"></i>
+                            Coches por Marca
+                        </h6>
                     </div>
-
-                    <div class="d-flex align-items-center">
-                        <!-- Búsqueda -->
-                        <form th:action="@{/coches/buscar}" method="get" class="me-3">
-                            <div class="d-flex align-items-center bg-light border rounded-pill px-3 py-1">
-                                <button type="submit" class="btn btn-link text-muted p-0 me-2 border-0">
-                                    <i class="bi bi-search"></i>
-                                </button>
-
-                                <input type="search" name="matricula"
-                                    class="form-control border-0 bg-transparent shadow-none"
-                                    placeholder="Buscar por matrícula, marca, modelo..." th:value="${matricula}">
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <!-- Iteración de cada marca -->
+                            <div class="col-md-4 col-lg-3" th:each="marca : ${cochesPorMarca}">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body text-center p-3">
+                                        <div class="d-flex align-items-center justify-content-center mb-2">
+                                            <i class="bi bi-car-front-fill fs-3 text-primary me-2"></i>
+                                            <h4 class="mb-0 fw-bold" th:text="${marca.value}">0</h4>
+                                        </div>
+                                        <p class="mb-0 text-muted fw-semibold" th:text="${marca.key}">Marca</p>
+                                    </div>
+                                </div>
                             </div>
-                        </form>
-
-                        <a th:href="@{/coches/nuevo}" class="btn btn-dark rounded-pill px-4">
-                            <i class="bi bi-plus-lg me-2"></i> Nuevo Coche
-                        </a>
+                            <!-- Mensaje cuando no hay datos -->
+                            <div class="col-12" th:if="${#maps.isEmpty(cochesPorMarca)}">
+                                <div class="text-center text-muted py-5">
+                                    <i class="bi bi-inbox fs-1 d-block mb-3 opacity-50"></i>
+                                    <p class="mb-0">No hay coches registrados</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </section>
 
-                <!-- Page title -->
-                <section class="mb-4">
-                    <h1 class="h3 fw-bold mb-1">Gestión de Coches</h1>
-                    <p class="text-muted mb-0">Administra los vehículos del taller</p>
-                </section>
-
-                <!-- Card -->
-                <section class="card rounded-3 shadow-sm">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div>
-                                <h5 class="mb-0">Lista de Coches</h5>
-                                <small class="text-muted" th:text="${#lists.size(coches)} + ' vehículos registrados'">
-                                    vehículos registrados</small>
-                            </div>
+            <!-- Card -->
+            <section class="card rounded-3 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h5 class="mb-0">Lista de Coches</h5>
+                            <small class="text-muted" th:text="${#lists.size(coches)} + ' vehículos registrados'">
+                                vehículos registrados</small>
                         </div>
+                    </div>
 
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="text-muted small">
-                                    <tr>
-                                        <th style="width:12%;">Matrícula</th>
-                                        <th style="width:18%;">Marca / Modelo</th>
-                                        <th style="width:10%;">KMs</th>
-                                        <th style="width:18%;">Cliente</th>
-                                        <th style="width:20%;">Problema</th>
-                                        <th style="width:10%;" class="text-center">Estado</th>
-                                        <th style="width:12%;">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Iteración de coches -->
-                                    <tr th:each="coche : ${coches}">
-                                        <td>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="text-muted small">
+                            <tr>
+                                <th style="width:12%;">Matrícula</th>
+                                <th style="width:18%;">Marca / Modelo</th>
+                                <th style="width:10%;">KMs</th>
+                                <th style="width:18%;">Cliente</th>
+                                <th style="width:20%;">Problema</th>
+                                <th style="width:10%;" class="text-center">Estado</th>
+                                <th style="width:12%;">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- Iteración de coches -->
+                            <tr th:each="coche : ${coches}">
+                                <td>
                                             <span class="badge bg-dark bg-opacity-10 text-dark fw-bold px-2 py-1"
-                                                th:text="${coche.matricula}">ABC1234</span>
-                                        </td>
+                                                  th:text="${coche.matricula}">ABC1234</span>
+                                </td>
 
-                                        <td>
-                                            <div class="fw-semibold" th:text="${coche.marca}">Toyota</div>
-                                            <div class="text-muted small" th:text="${coche.modelo}">Corolla</div>
-                                        </td>
+                                <td>
+                                    <div class="fw-semibold" th:text="${coche.marca}">Toyota</div>
+                                    <div class="text-muted small" th:text="${coche.modelo}">Corolla</div>
+                                </td>
 
-                                        <td>
+                                <td>
                                             <span class="text-muted"
-                                                th:text="${#numbers.formatDecimal(coche.kms, 0, 'POINT', 0, 'COMMA')} + ' km'">123.456
+                                                  th:text="${#numbers.formatDecimal(coche.kms, 0, 'POINT', 0, 'COMMA')} + ' km'">123.456
                                                 km</span>
-                                        </td>
+                                </td>
 
-                                        <td>
-                                            <div th:if="${coche.cliente != null}">
-                                                <i class="bi bi-person me-1 text-muted"></i>
-                                                <span th:text="${coche.cliente.nombre}">Juan Pérez</span>
-                                            </div>
-                                            <span th:if="${coche.cliente == null}" class="text-muted">Sin asignar</span>
-                                        </td>
+                                <td>
+                                    <div th:if="${coche.cliente != null}">
+                                        <i class="bi bi-person me-1 text-muted"></i>
+                                        <span th:text="${coche.cliente.nombre}">Juan Pérez</span>
+                                    </div>
+                                    <span th:if="${coche.cliente == null}" class="text-muted">Sin asignar</span>
+                                </td>
 
-                                        <td>
+                                <td>
                                             <span class="text-warning d-inline-flex align-items-center"
-                                                th:if="${coche.problema != null and !#strings.isEmpty(coche.problema)}">
+                                                  th:if="${coche.problema != null and !#strings.isEmpty(coche.problema)}">
                                                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
                                                 <span class="small" th:text="${coche.problema}">Cambio de frenos</span>
                                             </span>
-                                            <span th:if="${coche.problema == null or #strings.isEmpty(coche.problema)}"
-                                                class="text-muted small">
+                                    <span th:if="${coche.problema == null or #strings.isEmpty(coche.problema)}"
+                                          class="text-muted small">
                                                 <i class="bi bi-check-circle me-1"></i>Sin problemas
                                             </span>
-                                        </td>
+                                </td>
 
-                                        <td class="text-center">
-                                            <!-- Estado basado en si tiene problema o no -->
-                                            <span
-                                                th:if="${coche.problema != null and !#strings.isEmpty(coche.problema)}"
-                                                class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-3">
+                                <td class="text-center">
+                                    <!-- Estado basado en si tiene problema o no -->
+                                    <span
+                                            th:if="${coche.problema != null and !#strings.isEmpty(coche.problema)}"
+                                            class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-3">
                                                 En taller
                                             </span>
-                                            <span th:if="${coche.problema == null or #strings.isEmpty(coche.problema)}"
-                                                class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">
+                                    <span th:if="${coche.problema == null or #strings.isEmpty(coche.problema)}"
+                                          class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">
                                                 OK
                                             </span>
-                                        </td>
+                                </td>
 
-                                        <td>
-                                            <!-- Enlace editar -->
-                                            <a th:href="@{/coches/editar/{id}(id=${coche.id})}"
-                                                class="btn btn-sm btn-outline-secondary rounded-2 me-1" title="Editar">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
+                                <td>
+                                    <!-- Enlace editar -->
+                                    <a th:href="@{/coches/editar/{id}(id=${coche.id})}"
+                                       class="btn btn-sm btn-outline-secondary rounded-2 me-1" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
 
-                                            <!-- Botón eliminar (form POST) -->
-                                            <form th:action="@{/coches/eliminar/{id}(id=${coche.id})}" method="post"
-                                                style="display:inline-block;">
-                                                <button type="submit"
-                                                    class="btn btn-sm btn-outline-danger rounded-2" title="Eliminar">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </form>
-                                        </td>
+                                    <!-- Botón eliminar (form POST) -->
+                                    <form th:action="@{/coches/eliminar/{id}(id=${coche.id})}" method="post"
+                                          style="display:inline-block;">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger rounded-2" title="Eliminar">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
 
-
-                                    </tr>
-
-                                    <!-- Mensaje cuando no hay coches -->
-                                    <tr th:if="${#lists.isEmpty(coches)}">
-                                        <td colspan="7" class="text-center text-muted py-4">
-                                            <i class="bi bi-car-front fs-1 d-block mb-2"></i>
-                                            No hay coches registrados.
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
+                            <!-- Mensaje cuando no hay coches -->
+                            <tr th:if="${#lists.isEmpty(coches)}">
+                                <td colspan="7" class="text-center text-muted py-4">
+                                    <i class="bi bi-car-front fs-1 d-block mb-2"></i>
+                                    No hay coches registrados.
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </section>
 
-            </main>
-        </div>
+                </div>
+            </section>
+
+        </main>
     </div>
+</div>
 
-    <!-- Bootstrap JS (with Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS (with Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

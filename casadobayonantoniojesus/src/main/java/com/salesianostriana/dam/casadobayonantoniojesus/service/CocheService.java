@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -68,5 +70,27 @@ public class CocheService {
         return cocheRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Coche no encontrado con ID: " + id));
     }
+
+    public List<Coche> top5CochesConMasReparaciones() {
+        return cocheRepository.findAll().stream()
+                .sorted((c1, c2) -> Long.compare(
+                        facturaRepository.countByCocheId(c2.getId()),
+                        facturaRepository.countByCocheId(c1.getId())))
+                .limit(5)
+                .collect(Collectors.toList());
+    }
+
+
+    public Map<String, Long> contarCochesPorMarca() {
+        return cocheRepository.findAll().stream()
+                .filter(c -> c.getMarca() != null && !c.getMarca().isBlank())
+                .collect(Collectors.groupingBy(Coche::getMarca, Collectors.counting()));
+    }
+    public long contarFacturasPorCoche(Long cocheId) {
+        return facturaRepository.countByCocheId(cocheId);
+    }
+
+
+
 
 }

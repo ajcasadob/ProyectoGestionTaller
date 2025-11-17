@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -60,6 +62,23 @@ public class ClienteService {
                         .mapToDouble(Factura::getPrecio)
                         .sum())
                 .orElse(0.0);
+    }
+
+    public List<Cliente> top5ClientesConMayorGasto() {
+        return clienteRepository.findAll().stream()
+                .sorted((c1, c2) -> Double.compare(
+                        totalFacturadoPorCliente(c2.getId()),
+                        totalFacturadoPorCliente(c1.getId())))
+                .limit(5)
+                .collect(Collectors.toList());
+    }
+
+    public Map<Long, Double> obtenerGastosTop5Clientes() {
+        return top5ClientesConMayorGasto().stream()
+                .collect(Collectors.toMap(
+                        Cliente::getId,
+                        cliente -> totalFacturadoPorCliente(cliente.getId())
+                ));
     }
 
 

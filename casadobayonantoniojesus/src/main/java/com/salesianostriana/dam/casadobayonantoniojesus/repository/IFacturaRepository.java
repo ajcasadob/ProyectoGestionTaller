@@ -13,8 +13,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IFacturaRepository extends JpaRepository<Factura,Long> {
 
-    //Ordenar facturas por fecha descendente
-    public List<Factura> findAllByOrderByFechaDesc();
+
+
     public  List<Factura> findAllByCoche(Coche coche);
+    public long countByCocheId(Long cocheId);
+
 
 }

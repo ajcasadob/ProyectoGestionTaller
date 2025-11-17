@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -25,7 +26,15 @@ public class ClienteController {
     @GetMapping("/clientes")
     public String inicio(Model model) {
         List<Cliente> clientes = clienteService.obtenerTodosLosClientes();
+
+
+        List<Cliente> topClientes = clienteService.top5ClientesConMayorGasto();
+        Map<Long, Double> gastosClientes = clienteService.obtenerGastosTop5Clientes();
+
         model.addAttribute("clientes", clientes);
+        model.addAttribute("topClientes", topClientes);
+        model.addAttribute("gastosClientes", gastosClientes);
+
         return "clientes";
     }
 

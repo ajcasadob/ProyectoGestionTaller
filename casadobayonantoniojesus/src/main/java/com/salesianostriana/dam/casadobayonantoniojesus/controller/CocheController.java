@@ -4,6 +4,7 @@ import com.salesianostriana.dam.casadobayonantoniojesus.model.Cliente;
 import com.salesianostriana.dam.casadobayonantoniojesus.model.Coche;
 import com.salesianostriana.dam.casadobayonantoniojesus.service.ClienteService;
 import com.salesianostriana.dam.casadobayonantoniojesus.service.CocheService;
+import com.salesianostriana.dam.casadobayonantoniojesus.service.FacturaService;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,10 +25,13 @@ public class CocheController {
 
     private final CocheService cocheService;
     private final ClienteService clienteService;
+    private final FacturaService facturaService;
 
     @GetMapping("/coches")
     public String listarCoches(Model model) {
         List<Coche> coches = cocheService.obtenerTodosLosCoches();
+        model.addAttribute("cochesPorMarca", cocheService.contarCochesPorMarca());
+        model.addAttribute("cochesReparaciones", cocheService.top5CochesConMasReparaciones());
         model.addAttribute("coches", coches);
 
         return "coches";

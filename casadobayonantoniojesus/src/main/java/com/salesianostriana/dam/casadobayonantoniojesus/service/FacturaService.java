@@ -3,7 +3,10 @@ package com.salesianostriana.dam.casadobayonantoniojesus.service;
 
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -46,12 +49,9 @@ public class FacturaService {
         return facturaRepository.findById(id).orElse(null);
     }
 
-    public Factura aplicarDescuentoFactura(Factura factura, double descuentoPorcentaje) {
-        factura.setPrecio(factura.getPrecio() * (1 - descuentoPorcentaje / 100.0));
-        return factura;
-    }
 
-    // Métodos para estadística global
+
+
     public double obtenerIngresosTotales() {
         return obtenerTodasLasFacturas().stream()
                 .mapToDouble(Factura::getPrecio)
@@ -63,6 +63,25 @@ public class FacturaService {
         double total = obtenerIngresosTotales();
         return facturas.isEmpty() ? 0 : total / facturas.size();
     }
+
+    public List<Factura> facturasDelUltimoMes() {
+        LocalDateTime haceUnMes = LocalDateTime.now().minusMonths(1);
+        return facturaRepository.findAll().stream()
+                .filter(f -> f.getFecha() != null && f.getFecha().isAfter(haceUnMes))
+                .sorted(Comparator.comparing(Factura::getFecha).reversed())
+                .collect(Collectors.toList());
+    }
+
+    public double ingresosMesActual() {
+        return facturasDelUltimoMes().stream()
+                .mapToDouble(Factura::getPrecio)
+                .sum();
+    }
+
+    public long cantidadFacturasMesActual() {
+        return facturasDelUltimoMes().size();
+    }
+
 
 
 }
