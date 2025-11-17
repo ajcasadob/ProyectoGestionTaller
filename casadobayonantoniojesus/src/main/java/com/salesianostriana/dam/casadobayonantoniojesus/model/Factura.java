@@ -3,6 +3,7 @@ package com.salesianostriana.dam.casadobayonantoniojesus.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
@@ -28,14 +29,12 @@ public class Factura {
     @PositiveOrZero(message = "El precio no puede ser negativo")
     private double precio;
 
-    private double ingresosTotales;
-    private double mediaIngresos;
 
     @NotBlank(message = "La pieza cambiada es obligatoria")
     private String pieza;
 
 
-    @NotBlank(message = "La fecha debe de ser obligatoria")
+    @NotNull(message = "La fecha es un campo obligatorio")
     @PastOrPresent(message = "La fecha debe ser igual o anterior al dia actual")
     private LocalDateTime fecha;
     

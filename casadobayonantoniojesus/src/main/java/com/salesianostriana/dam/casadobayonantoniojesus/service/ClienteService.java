@@ -20,6 +20,12 @@ public class ClienteService {
     private final IClienteRepository clienteRepository;
 
 
+    public List<Cliente> buscarPorNombre(String nombre){
+        String filtro = (nombre != null) ? nombre.trim() : "";
+        return filtro.isEmpty()
+                ? obtenerTodosLosClientes()
+                : clienteRepository.findByNombreContainingIgnoreCase(filtro);
+    }
     public List<Cliente> obtenerTodosLosClientes(){
         return clienteRepository.findAll();
     }

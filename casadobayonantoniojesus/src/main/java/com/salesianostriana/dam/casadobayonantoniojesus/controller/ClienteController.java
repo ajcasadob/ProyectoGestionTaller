@@ -29,6 +29,16 @@ public class ClienteController {
         return "clientes";
     }
 
+    @GetMapping("/clientes/buscar")
+    public String listarClientes(
+            @RequestParam(value = "nombre", required = false) String nombre,
+            Model model) {
+        List<Cliente> clientes = clienteService.buscarPorNombre(nombre);
+        model.addAttribute("clientes", clientes);
+        model.addAttribute("nombre", nombre);
+        return "clientes";
+    }
+
     @PostMapping("/clientes/eliminar/{id}")
     public String eliminarCliente(@PathVariable Long id) {
         clienteService.eliminarCliente(id);

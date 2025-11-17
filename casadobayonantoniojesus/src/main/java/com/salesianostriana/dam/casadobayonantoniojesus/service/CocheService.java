@@ -26,6 +26,8 @@ public class CocheService {
         return cocheRepository.findAll();
     }
 
+
+
     public void eliminarCoche(Long id) {
     Coche coche = cocheRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Coche no encontrado con ID: " ));

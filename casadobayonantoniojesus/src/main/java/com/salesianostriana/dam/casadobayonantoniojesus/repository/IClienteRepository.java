@@ -10,5 +10,7 @@ import java.util.List;
 @Repository
 public interface IClienteRepository extends JpaRepository<Cliente,Long> {
 
+    List<Cliente> findByNombreContainingIgnoreCase(String nombre);
+
 
 }
