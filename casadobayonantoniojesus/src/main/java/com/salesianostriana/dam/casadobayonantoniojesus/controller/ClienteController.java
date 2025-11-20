@@ -27,9 +27,9 @@ public class ClienteController {
     public String inicio(Model model) {
         List<Cliente> clientes = clienteService.obtenerTodosLosClientes();
 
-
-        List<Cliente> topClientes = clienteService.top5ClientesConMayorGasto();
-        Map<Long, Double> gastosClientes = clienteService.obtenerGastosTop5Clientes();
+        // Usar métodos CON IVA para el top de clientes
+        List<Cliente> topClientes = clienteService.top5ClientesConMayorGastoConIva();
+        Map<Long, Double> gastosClientes = clienteService.obtenerGastosTop5ClientesConIva();
 
         model.addAttribute("clientes", clientes);
         model.addAttribute("topClientes", topClientes);
@@ -64,7 +64,7 @@ public class ClienteController {
 
     @PostMapping("/clientes/nuevo")
     public String guardarCliente(@ModelAttribute("cliente") Cliente cliente,
-            BindingResult result, Model model) {
+                                 BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             model.addAttribute("coches", cocheService.obtenerTodosLosCoches());
@@ -73,13 +73,11 @@ public class ClienteController {
         }
 
         clienteService.guardarCliente(cliente);
-
         return "redirect:/clientes";
     }
 
     @GetMapping("/clientes/editar/{id}")
     public String mostrarFormularioEditarCliente(@PathVariable Long id, Model model) {
-
         Optional<Cliente> cliente = Optional.ofNullable(clienteService.findbyId(id));
         model.addAttribute("cliente", cliente.get());
         model.addAttribute("coches", cocheService.obtenerTodosLosCoches());
@@ -89,9 +87,9 @@ public class ClienteController {
 
     @PostMapping("/clientes/editar/{id}")
     public String actualizarCliente(@PathVariable Long id,
-            @ModelAttribute("cliente") Cliente cliente,
-            BindingResult result,
-            Model model) {
+                                    @ModelAttribute("cliente") Cliente cliente,
+                                    BindingResult result,
+                                    Model model) {
 
         if (result.hasErrors()) {
             model.addAttribute("coches", cocheService.obtenerTodosLosCoches());
@@ -105,12 +103,16 @@ public class ClienteController {
 
     @GetMapping("/clientes/{id}/total-facturado")
     public String mostrarTotalFacturado(@PathVariable Long id, Model model) {
-        double totalFacturado = clienteService.totalFacturadoPorCliente(id);
-        model.addAttribute("totalFacturado", totalFacturado);
+        // Enviar AMBOS totales: con y sin IVA
+        double totalSinIva = clienteService.totalFacturadoPorCliente(id);
+        double totalConIva = clienteService.totalFacturadoPorClienteConIva(id);
+
+        model.addAttribute("totalSinIva", totalSinIva);
+        model.addAttribute("totalConIva", totalConIva);
         model.addAttribute("cliente", clienteService.findbyId(id));
+
         return "ClienteTotalFacturado";
     }
-
 
 
 }

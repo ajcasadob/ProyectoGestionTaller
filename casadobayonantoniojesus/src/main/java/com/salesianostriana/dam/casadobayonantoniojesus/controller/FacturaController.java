@@ -24,43 +24,66 @@ public class FacturaController {
     @GetMapping("/facturas")
     public String listarFacturas(Model model) {
         List<Factura> facturas = facturaService.obtenerTodasLasFacturas();
+
         model.addAttribute("facturas", facturas);
+
+
         model.addAttribute("ingresosTotales", facturaService.obtenerIngresosTotales());
+        model.addAttribute("ingresosMesActual", facturaService.ingresosMesActual());
+
+
+        model.addAttribute("ingresosTotalesConIva", facturaService.calcularIngresosTotalesConIva());
+        model.addAttribute("ingresosMesActualConIva", facturaService.ingresosMesActualConIva());
+
+
+        model.addAttribute("totalIvaRecaudado", facturaService.calcularTotalIvaRecaudado());
+
+
         model.addAttribute("mediaIngresos", facturaService.obtenerMediaIngresos());
         model.addAttribute("topClientes", clienteService.top5ClientesConMayorGasto());
         model.addAttribute("facturasMesActual", facturaService.cantidadFacturasMesActual());
-        model.addAttribute("ingresosMesActual", facturaService.ingresosMesActual());
-
 
         return "facturas";
     }
 
     @PostMapping("/facturas/eliminar/{id}")
     public String eliminarFactura(@PathVariable Long id) {
+
         facturaService.eliminarFactura(id);
+
         return "redirect:/facturas";
     }
 
     @GetMapping("/facturas/nueva")
     public String mostrarFormulario(Model model) {
+
         model.addAttribute("factura", new Factura());
+
         model.addAttribute("clientes", clienteService.obtenerTodosLosClientes());
+
         model.addAttribute("coches", cocheService.obtenerTodosLosCoches());
         return "formularioFactura";
     }
 
     @PostMapping("/facturas/guardar")
     public String guardarFactura(@ModelAttribute Factura factura) {
+
         facturaService.guardarFactura(factura);
+
         return "redirect:/facturas";
     }
 
     @GetMapping("/facturas/editar/{id}")
     public String mostrarFormularioEdicion(@PathVariable Long id, Model model) {
+
         Factura factura = facturaService.findById(id);
+
         model.addAttribute("factura", factura);
+
         model.addAttribute("clientes", clienteService.obtenerTodosLosClientes());
+
         model.addAttribute("coches", cocheService.obtenerTodosLosCoches());
+
         return "formularioFactura";
     }
 
@@ -68,7 +91,9 @@ public class FacturaController {
     public String actualizarFactura(@PathVariable Long id,
                                     @ModelAttribute Factura factura) {
         factura.setId(id);
+
         facturaService.guardarFactura(factura);
+
         return "redirect:/facturas";
     }
 }

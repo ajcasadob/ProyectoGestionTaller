@@ -20,14 +20,17 @@ public class ClienteService {
 
 
     private final IClienteRepository clienteRepository;
+    private final FacturaService facturaService;
 
 
-    public List<Cliente> buscarPorNombre(String nombre){
-        String filtro = (nombre != null) ? nombre.trim() : "";
-        return filtro.isEmpty()
-                ? obtenerTodosLosClientes()
-                : clienteRepository.findByNombreContainingIgnoreCase(filtro);
+    public List<Cliente> buscarPorNombre(String nombre) {
+        return Optional.ofNullable(nombre)
+                .map(String::trim)
+                .filter(n -> !n.isEmpty())
+                .map(clienteRepository::findByNombreContainingIgnoreCase)
+                .orElseGet(this::obtenerTodosLosClientes);
     }
+
     public List<Cliente> obtenerTodosLosClientes(){
         return clienteRepository.findAll();
     }
@@ -38,15 +41,13 @@ public class ClienteService {
 
     public Cliente findbyId(Long id){
         return clienteRepository.findById(id).orElse(null);
-
     }
 
-    public void guardarCliente (Cliente cliente){
+    public void guardarCliente(Cliente cliente){
         clienteRepository.save(cliente);
     }
 
-    public void actulizarCliente (Cliente cliente, Long id){
-
+    public void actulizarCliente(Cliente cliente, Long id){
         Optional<Cliente> c = clienteRepository.findById(id);
         if(c.isPresent()){
             cliente.setId(id);
@@ -56,6 +57,8 @@ public class ClienteService {
         }
     }
 
+    // === Métodos SIN IVA ===
+
     public double totalFacturadoPorCliente(Long clienteId) {
         return clienteRepository.findById(clienteId)
                 .map(cliente -> cliente.getFacturas().stream()
@@ -63,6 +66,44 @@ public class ClienteService {
                         .sum())
                 .orElse(0.0);
     }
+
+    // === Métodos CON IVA ===
+
+    /**
+     * Calcula el total facturado por un cliente CON IVA incluido
+     */
+    public double totalFacturadoPorClienteConIva(Long clienteId) {
+        return clienteRepository.findById(clienteId)
+                .map(cliente -> cliente.getFacturas().stream()
+                        .mapToDouble(facturaService::calcularPrecioConIva)
+                        .sum())
+                .orElse(0.0);
+    }
+
+    /**
+     * Obtiene los top 5 clientes con mayor gasto CON IVA
+     */
+    public List<Cliente> top5ClientesConMayorGastoConIva() {
+        return clienteRepository.findAll().stream()
+                .sorted((c1, c2) -> Double.compare(
+                        totalFacturadoPorClienteConIva(c2.getId()),
+                        totalFacturadoPorClienteConIva(c1.getId())))
+                .limit(5)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Obtiene un mapa con los gastos de los top 5 clientes CON IVA
+     */
+    public Map<Long, Double> obtenerGastosTop5ClientesConIva() {
+        return top5ClientesConMayorGastoConIva().stream()
+                .collect(Collectors.toMap(
+                        Cliente::getId,
+                        cliente -> totalFacturadoPorClienteConIva(cliente.getId())
+                ));
+    }
+
+    // === Métodos originales (sin IVA) mantenidos para compatibilidad ===
 
     public List<Cliente> top5ClientesConMayorGasto() {
         return clienteRepository.findAll().stream()

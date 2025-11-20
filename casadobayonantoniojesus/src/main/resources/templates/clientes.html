@@ -96,7 +96,7 @@
                             </div>
                             <div>
                                 <h5 class="mb-0 fw-bold">Top 5 Clientes con Mayor Gasto</h5>
-                                <small class="text-muted">Los clientes que más han invertido en el taller</small>
+                                <small class="text-muted">Los clientes que más han invertido en el taller (IVA incluido)</small>
                             </div>
                         </div>
                     </div>
@@ -128,7 +128,10 @@
                                                  th:text="${#numbers.formatDecimal(gastosClientes.get(cliente.id), 1, 'POINT', 2, 'COMMA')} + ' €'">
                                                 1.234,56 €
                                             </div>
-                                            <small class="text-muted">Total facturado</small>
+                                            <small class="text-muted">
+                                                <i class="bi bi-check-circle-fill me-1"></i>
+                                                con IVA (21%)
+                                            </small>
                                         </div>
                                     </div>
                                 </div>

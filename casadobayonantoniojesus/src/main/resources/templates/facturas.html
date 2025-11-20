@@ -60,17 +60,6 @@
                 </div>
 
                 <div class="d-flex align-items-center">
-                    <!-- Búsqueda -->
-                    <form th:action="@{/facturas/buscar}" method="get" class="me-3">
-                        <div class="d-flex align-items-center bg-light border rounded-pill px-3 py-1">
-                            <button type="submit" class="btn btn-link text-muted p-0 me-2 border-0">
-                                <i class="bi bi-search"></i>
-                            </button>
-                            <input type="search" name="q" class="form-control border-0 bg-transparent shadow-none"
-                                   placeholder="Buscar por cliente, descripción..." th:value="${q}">
-                        </div>
-                    </form>
-
                     <a th:href="@{/facturas/nueva}" class="btn btn-dark rounded-pill px-4">
                         <i class="bi bi-plus-lg me-2"></i> Nueva Factura
                     </a>
@@ -115,7 +104,13 @@
                                     <h6 class="text-muted mb-2">Ingresos Totales</h6>
                                     <h3 class="mb-1 fw-bold"
                                         th:text="${ingresosTotales != null ? #numbers.formatDecimal(ingresosTotales, 1, 'POINT', 2, 'COMMA') + ' €' : '0,00 €'}"></h3>
-                                    <small class="text-muted">Suma de todas las facturas</small>
+                                    <small class="text-muted">Sin IVA</small>
+                                    <br>
+                                    <small class="text-success fw-semibold">
+                                        <i class="bi bi-plus-circle me-1"></i>
+                                        <span th:text="${ingresosTotalesConIva != null ? #numbers.formatDecimal(ingresosTotalesConIva, 1, 'POINT', 2, 'COMMA') + ' €' : '0,00 €'}"></span>
+                                        con IVA
+                                    </small>
                                 </div>
                                 <div class="bg-success bg-opacity-10 text-success rounded-3 d-flex align-items-center justify-content-center"
                                      style="width:48px;height:48px;">
@@ -135,7 +130,7 @@
                                     <h6 class="text-muted mb-2">Ingreso Promedio</h6>
                                     <h3 class="mb-1 fw-bold"
                                         th:text="${mediaIngresos != null ? #numbers.formatDecimal(mediaIngresos, 1, 'POINT', 2, 'COMMA') + ' €' : '0,00 €'}"></h3>
-                                    <small class="text-muted">Por factura</small>
+                                    <small class="text-muted">Por factura (sin IVA)</small>
                                 </div>
                                 <div class="bg-warning bg-opacity-10 text-warning rounded-3 d-flex align-items-center justify-content-center"
                                      style="width:48px;height:48px;">
@@ -146,8 +141,8 @@
                     </div>
                 </div>
 
-                <!-- Facturas del Mes (NUEVA) -->
-                <div class="col-md-6">
+                <!-- Facturas del Mes -->
+                <div class="col-md-4">
                     <div class="card rounded-3 shadow-sm border-0">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
@@ -168,8 +163,8 @@
                     </div>
                 </div>
 
-                <!-- Ingresos del Mes (NUEVA) -->
-                <div class="col-md-6">
+                <!-- Ingresos del Mes -->
+                <div class="col-md-4">
                     <div class="card rounded-3 shadow-sm border-0">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
@@ -180,11 +175,40 @@
                                     </h6>
                                     <h3 class="mb-1 fw-bold"
                                         th:text="${ingresosMesActual != null ? #numbers.formatDecimal(ingresosMesActual, 1, 'POINT', 2, 'COMMA') + ' €' : '0,00 €'}"></h3>
-                                    <small class="text-muted">Últimos 30 días</small>
+                                    <small class="text-muted">Sin IVA - Últimos 30 días</small>
+                                    <br>
+                                    <small class="text-success fw-semibold">
+                                        <i class="bi bi-plus-circle me-1"></i>
+                                        <span th:text="${ingresosMesActualConIva != null ? #numbers.formatDecimal(ingresosMesActualConIva, 1, 'POINT', 2, 'COMMA') + ' €' : '0,00 €'}"></span>
+                                        con IVA
+                                    </small>
                                 </div>
                                 <div class="bg-success bg-opacity-10 text-success rounded-3 d-flex align-items-center justify-content-center"
                                      style="width:48px;height:48px;">
                                     <i class="bi bi-graph-up-arrow fs-4"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total IVA Recaudado (NUEVA TARJETA) -->
+                <div class="col-md-4">
+                    <div class="card rounded-3 shadow-sm border-0">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="text-muted mb-2">
+                                        <i class="bi bi-percent me-2"></i>
+                                        IVA Recaudado
+                                    </h6>
+                                    <h3 class="mb-1 fw-bold"
+                                        th:text="${totalIvaRecaudado != null ? #numbers.formatDecimal(totalIvaRecaudado, 1, 'POINT', 2, 'COMMA') + ' €' : '0,00 €'}"></h3>
+                                    <small class="text-muted">Total IVA (21%)</small>
+                                </div>
+                                <div class="bg-danger bg-opacity-10 text-danger rounded-3 d-flex align-items-center justify-content-center"
+                                     style="width:48px;height:48px;">
+                                    <i class="bi bi-receipt fs-4"></i>
                                 </div>
                             </div>
                         </div>
@@ -207,14 +231,14 @@
                         <table class="table table-hover align-middle mb-0">
                             <thead class="text-muted small">
                             <tr>
-                                <th style="width:8%;">ID</th>
-                                <th style="width:15%;">Fecha</th>
-                                <th style="width:18%;">Cliente</th>
-                                <th style="width:15%;">Vehículo</th>
-                                <th style="width:22%;">Descripción</th>
-                                <th style="width:12%;">Pieza</th>
-                                <th style="width:10%;" class="text-end">Precio</th>
-                                <th style="width:10%;">Acciones</th>
+                                <th style="width:6%;">ID</th>
+                                <th style="width:12%;">Fecha</th>
+                                <th style="width:16%;">Cliente</th>
+                                <th style="width:13%;">Vehículo</th>
+                                <th style="width:18%;">Descripción</th>
+                                <th style="width:10%;">Pieza</th>
+                                <th style="width:14%;" class="text-end">Precios</th>
+                                <th style="width:11%;">Acciones</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -253,10 +277,16 @@
                                     <span class="badge bg-light text-dark" th:text="${factura.pieza}"></span>
                                 </td>
                                 <td class="text-end">
-                                    <span class="fw-bold text-success"
-                                          th:text="${#numbers.formatDecimal(factura.precio, 1, 'POINT', 2, 'COMMA')} + ' €'">
-                                        120,50 €
-                                    </span>
+                                    <!-- Precio sin IVA -->
+                                    <div class="fw-semibold text-dark small">
+                                        <span th:text="${#numbers.formatDecimal(factura.precio, 1, 'POINT', 2, 'COMMA')} + ' €'"></span>
+                                        <small class="text-muted d-block" style="font-size:0.8em;">sin IVA</small>
+                                    </div>
+                                    <!-- Precio con IVA -->
+                                    <div class="fw-bold text-success">
+                                        <span th:text="${#numbers.formatDecimal(factura.precio * 1.21, 1, 'POINT', 2, 'COMMA')} + ' €'"></span>
+                                        <small class="text-muted d-block" style="font-size:0.8em;">con IVA</small>
+                                    </div>
                                 </td>
                                 <td>
                                     <!-- Botón Editar -->
